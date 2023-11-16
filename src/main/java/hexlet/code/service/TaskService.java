@@ -1,0 +1,34 @@
+package hexlet.code.service;
+
+import hexlet.code.mapper.TaskMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import hexlet.code.dto.TaskDTO;
+import hexlet.code.exception.ResourceNotFoundException;
+import hexlet.code.model.Task;
+import hexlet.code.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class TaskService {
+
+    @Autowired
+    private final TaskRepository taskRepository;
+
+    @Autowired
+    private final TaskMapper taskMapperImpl;
+
+    public Task create(TaskDTO data) {
+        var task = taskMapperImpl.map(data);
+        return taskRepository.save(task);
+    }
+
+    public Task update(long id, TaskDTO data) {
+        var task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task has not found"));
+        taskMapperImpl.update(data, task);
+        return taskRepository.save(task);
+    }
+}
