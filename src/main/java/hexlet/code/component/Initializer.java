@@ -54,7 +54,7 @@ public class Initializer implements ApplicationRunner {
 
     private void addModels() {
         var userData = new UserDTO();
-        userData.setEmail(JsonNullable.of("hexlet@example.com"));
+        userData.setEmail(JsonNullable.of("hexlet@example.com")); 
         userData.setPassword(JsonNullable.of("qwerty"));
         var user = userMapper.map(userData);
         userRepository.save(user);
